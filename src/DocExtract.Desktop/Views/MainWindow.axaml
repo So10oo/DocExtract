@@ -1,0 +1,135 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DocExtract.Desktop.ViewModels"
+        xmlns:views="using:DocExtract.Desktop.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="800"
+        x:Class="DocExtract.Desktop.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Width="1280" Height="800"
+        Title="{Binding Loc.Title}">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Padding="8,6" Background="#1E1E1E">
+            <Grid ColumnDefinitions="Auto,*" >
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="{Binding Loc.AddFiles}" Command="{Binding AddFilesCommand}" />
+                    <Button Content="{Binding Loc.AddFolder}" Command="{Binding AddFolderCommand}" />
+                    <Button Content="{Binding Loc.Process}" Command="{Binding ProcessQueueCommand}" IsEnabled="{Binding !IsBusy}" />
+                    <Button Content="{Binding Loc.Retry}" Command="{Binding RetrySelectedCommand}" />
+                    <Button Content="{Binding Loc.Remove}" Command="{Binding RemoveSelectedCommand}" />
+                    <Button Content="{Binding Loc.Export}" Command="{Binding ExportSelectedCommand}" />
+                    <Separator Width="12" />
+                    <ToggleButton Content="{Binding Loc.SelectRegion}" IsChecked="{Binding SelectionEnabled}" />
+                    <ToggleButton Content="{Binding Loc.DrawZone}" IsChecked="{Binding DrawZoneMode}" Command="{Binding ToggleDrawZoneCommand}" />
+                    <CheckBox Content="{Binding Loc.Overlay}" IsChecked="{Binding ShowOverlay}" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Grid.Column="1" Text="{Binding StatusText}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,0" Opacity="0.85" />
+            </Grid>
+        </Border>
+
+        <Grid ColumnDefinitions="280,*,360">
+            <DockPanel Grid.Column="0" Margin="8">
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Loc.Queue}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                <ListBox ItemsSource="{Binding Queue}" SelectedItem="{Binding SelectedItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:QueueItemViewModel">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="{Binding FileName}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Opacity="0.7" FontSize="11">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}  {1}%">
+                                            <Binding Path="Status" />
+                                            <Binding Path="Progress" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <TextBlock Text="{Binding ErrorMessage}" Foreground="Salmon" FontSize="11" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <DockPanel Grid.Column="1" Margin="4">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                    <Button Content="◀" Command="{Binding PrevPageCommand}" />
+                    <TextBlock VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} {1}/{2}">
+                                <Binding Path="Loc.Page" />
+                                <Binding Path="SelectedItem.CurrentPage" />
+                                <Binding Path="SelectedItem.PageCount" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <Button Content="▶" Command="{Binding NextPageCommand}" />
+                </StackPanel>
+                <Border Background="#111" CornerRadius="4">
+                    <views:PageViewer Name="Viewer"
+                                      PageImage="{Binding PageBitmap}"
+                                      Overlays="{Binding OverlaySnapshot}"
+                                      SelectionEnabled="{Binding SelectionEnabled}" />
+                </Border>
+            </DockPanel>
+
+            <TabControl Grid.Column="2" Margin="8">
+                <TabItem Header="{Binding Loc.Text}">
+                    <TextBox AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas,Cascadia Mono,monospace"
+                             Text="{Binding SelectedItem.EditedText}" />
+                </TabItem>
+                <TabItem Header="{Binding Loc.Zones}">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Spacing="6">
+                            <TextBox PlaceholderText="{Binding Loc.ZoneName}" Text="{Binding NewZoneName}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Content="{Binding Loc.SaveTemplate}" Command="{Binding SaveTemplateCommand}" />
+                                <Button Content="{Binding Loc.LoadTemplate}" Command="{Binding LoadTemplateCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding Zones}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ZoneItemViewModel">
+                                    <StackPanel>
+                                        <TextBox Text="{Binding Name}" />
+                                        <TextBlock Opacity="0.7" FontSize="11" Text="{Binding PageIndex, StringFormat=Page {0}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="{Binding Loc.Settings}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="10" Margin="4">
+                            <TextBlock Text="{Binding Loc.UiLanguage}" FontWeight="SemiBold" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Content="{Binding Loc.Russian}" Command="{Binding SetUiLanguageCommand}" CommandParameter="ru" />
+                                <Button Content="{Binding Loc.English}" Command="{Binding SetUiLanguageCommand}" CommandParameter="en" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Loc.Languages}" FontWeight="SemiBold" />
+                            <CheckBox Content="RU" IsChecked="{Binding Settings.LanguageRu}" />
+                            <CheckBox Content="EN" IsChecked="{Binding Settings.LanguageEn}" />
+                            <TextBlock Text="{Binding Loc.Gpu}" FontWeight="SemiBold" />
+                            <ComboBox SelectedItem="{Binding GpuChoice}">
+                                <ComboBox.Items>
+                                    <x:String>Auto</x:String>
+                                    <x:String>Off</x:String>
+                                </ComboBox.Items>
+                            </ComboBox>
+                            <TextBlock Text="{Binding Loc.Dpi}" />
+                            <NumericUpDown Minimum="72" Maximum="400" Increment="25" Value="{Binding Settings.RenderDpi}" />
+                            <CheckBox Content="{Binding Loc.PreferText}" IsChecked="{Binding Settings.PreferEmbeddedText}" />
+                            <TextBlock Text="{Binding Loc.ExportFolder}" />
+                            <TextBox Text="{Binding Settings.ExportFolder}" PlaceholderText="C:\export" />
+                            <Button Content="{Binding Loc.SaveSettings}" Command="{Binding SaveSettingsCommand}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>

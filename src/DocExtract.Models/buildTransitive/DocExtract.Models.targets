@@ -1,0 +1,13 @@
+<Project>
+  <ItemGroup>
+    <DocExtractModelFiles Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\models\*.onnx" />
+  </ItemGroup>
+  <Target Name="CopyDocExtractModels" AfterTargets="Build" Condition="'@(DocExtractModelFiles)' != ''">
+    <MakeDir Directories="$(OutputPath)models" />
+    <Copy SourceFiles="@(DocExtractModelFiles)" DestinationFolder="$(OutputPath)models" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyDocExtractModelsOnPublish" AfterTargets="Publish" Condition="'@(DocExtractModelFiles)' != ''">
+    <MakeDir Directories="$(PublishDir)models" />
+    <Copy SourceFiles="@(DocExtractModelFiles)" DestinationFolder="$(PublishDir)models" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

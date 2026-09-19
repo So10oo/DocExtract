@@ -1,0 +1,13 @@
+DocExtract
+Copyright 2026 DocExtract contributors
+
+This product includes software developed by third parties, including:
+
+- UglyToad.PdfPig (Apache-2.0)
+- PDFtoImage / Pdfium (licenses of those projects)
+- OpenCvSharp (Apache-2.0)
+- ONNX Runtime (MIT)
+- RapidOCRSharpOnnx (Apache-2.0)
+- PaddleOCR / RapidOCR model weights (Apache-2.0)
+- Avalonia (MIT)
+- DocumentFormat.OpenXml (MIT)

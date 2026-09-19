@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <Description>Веса печатных ONNX-моделей PP-OCR (детектор, классификатор, распознавание RU+EN/ESLAV) для DocExtract.</Description>
+    <PackageId>DocExtract.Models</PackageId>
+    <PackageTags>ocr;onnx;models;ppocr</PackageTags>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\models\README.md" Pack="true" PackagePath="\" />
+    <None Include="buildTransitive\DocExtract.Models.targets" Pack="true" PackagePath="buildTransitive\" />
+    <None Include="..\..\models\*.onnx" Pack="true" PackagePath="contentFiles\any\any\models\" Condition="Exists('..\..\models')" />
+    <None Include="..\..\models\README.md" Pack="true" PackagePath="contentFiles\any\any\models\" Condition="Exists('..\..\models\README.md')" />
+  </ItemGroup>
+</Project>

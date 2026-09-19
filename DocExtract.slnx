@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DocExtract.Desktop/DocExtract.Desktop.csproj" />
+    <Project Path="src/DocExtract.Engines.Onnx/DocExtract.Engines.Onnx.csproj" />
+    <Project Path="src/DocExtract.Models/DocExtract.Models.csproj" />
+    <Project Path="src/DocExtract/DocExtract.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DocExtract.Tests/DocExtract.Tests.csproj" />
+  </Folder>
+</Solution>

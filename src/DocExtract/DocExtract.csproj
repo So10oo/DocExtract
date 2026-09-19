@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>DocExtract</RootNamespace>
+    <Description>In-process SDK для извлечения текста из PDF, Office и изображений: координаты, JSON, сегменты страницы.</Description>
+    <PackageId>DocExtract</PackageId>
+    <PackageTags>ocr;pdf;documents;extraction;docx</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CA1416</NoWarn>
+    <InternalsVisibleTo>DocExtract.Tests</InternalsVisibleTo>
+    <InternalsVisibleTo>DocExtract.Engines.Onnx</InternalsVisibleTo>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageReference Include="PDFtoImage" Version="5.2.0" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
+    <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
+  </ItemGroup>
+</Project>
