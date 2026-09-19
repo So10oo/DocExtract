@@ -5,7 +5,7 @@
 - **SDK (NuGet `DocExtract`)** — in-process API для .NET-программ: PDF, DOCX/XLSX, изображения; слова/строки с координатами; JSON (`schemaVersion: 1`).
 - **Движок (`DocExtract.Engines.Onnx`)** — PP-OCR через ONNX Runtime, CPU по умолчанию, DirectML опционально. Модель распознавания ESLAV: русский + латиница/цифры.
 - **Модели (`DocExtract.Models`)** — веса det/rec/cls, отдельный пакет, чтобы не раздувать ссылку на SDK.
-- **Десктоп** — очередь файлов, превью с оверлеем, правка текста, зоны/шаблоны `.dex-template.json`, экспорт TXT/JSON, UI ru/en.
+- **Десктоп** — очередь файлов, превью с оверлеем, правка текста, зоны/шаблоны `.dex-template.json`, экспорт TXT/JSON, UI ru/en. Как пользоваться: [docs/DESKTOP.md](docs/DESKTOP.md).
 
 Лицензия: [Apache-2.0](LICENSE).
 
@@ -58,6 +58,8 @@ dotnet test DocExtract.slnx
 ```powershell
 dotnet run --project src/DocExtract.Desktop
 ```
+
+Подробное руководство оператора (очередь, сегмент, зоны, настройки, экспорт): [docs/DESKTOP.md](docs/DESKTOP.md).
 
 Модели OCR:
 

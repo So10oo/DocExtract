@@ -41,3 +41,8 @@ DocExtract.Desktop  -->  DocExtract (API)
 ## Python позже
 
 JSON-контракт стабилен (`schemaVersion`). In-process Python — NativeAOT C-ABI на этапе 7, не pythonnet.
+
+## См. также
+
+- [Руководство по десктоп-приложению](DESKTOP.md)
+- [План развития](ROADMAP.md)
